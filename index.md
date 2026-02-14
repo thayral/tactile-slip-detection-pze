@@ -449,7 +449,7 @@ These perturbations generate tactile responses that can be mistaken for slip if 
 
 <div style="max-width:920px; margin:16px auto; padding:0 16px;">
   <div style="width:65%; margin:0 auto; display:flex; justify-content:center;">
-    <img src="media/perturbation_taxonomy.png"
+    <img src="media/perturbations_taxonomy.png"
          style="
            width:100%;
            height:auto;
@@ -536,27 +536,6 @@ run_20240314_170830_split_slip_velres.png
 
 
 
-## Generating perturbations for training {#perturbations}
-
-<table>
-  <tr>
-    <td width="55%" valign="top">
-      <strong>Perturbation taxonomy</strong>
-      <ul>
-        <li><strong>ΔF<sub>n</sub></strong> — Grasp effort variations: normal force (tighten / release)</li>
-        <li><strong>ΔF<sub>t</sub></strong> — External load variations: tangential load (shear / traction)</li>
-        <li><strong>Δq</strong> — Actuation noise: structural vibrations</li>
-      </ul>
-      <em>Goal: reduce false alarms while preserving sensitivity to real slip.</em>
-    <td width="45%" align="center" valign="top">
-      <img
-        src="media/perturbations_taxonomy.png"
-        width="420"
-        alt="Perturbation taxonomy"
-        style="transform: rotate(90deg);">
-    </td>
-  </tr>
-</table>
 
 <p>
   <img src="media/perturbations-rarity.png" width="900" alt="Perturbations imbalance">
@@ -567,8 +546,6 @@ run_20240314_170830_split_slip_velres.png
 
 
 
-
-## PERTURB TAXO TRANSIENT AMBIENT
 
 ## - > robust how ?
 
