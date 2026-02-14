@@ -164,16 +164,20 @@ The goal is to validate the **representation, architecture, and detection latenc
 ### Characterization bench
 
 <div style="max-width:920px; margin:16px auto; padding:0 16px;">
-  <div style="width:70%; margin:0 auto;">
-    <video autoplay loop muted playsinline style="width:100%; height:auto; display:block;">
-      <source src="media/collect_animation.mp4" type="video/mp4">
-    </video>
-    <div style="height:8px;"></div>
-    <video autoplay loop muted playsinline style="width:100%; height:auto; display:block;">
-      <source src="media/collect_signal.mp4" type="video/mp4">
-    </video>
+  <!-- keep total narrow -->
+  <div style="max-width:700px; margin:0 auto;">
+    <div style="display:flex; gap:12px; align-items:flex-start; justify-content:center;">
+      <video autoplay loop muted playsinline style="width:50%; height:auto; display:block;">
+        <source src="media/collect_animation.mp4" type="video/mp4">
+      </video>
+
+      <video autoplay loop muted playsinline style="width:50%; height:auto; display:block;">
+        <source src="media/collect_signal.mp4" type="video/mp4">
+      </video>
+    </div>
   </div>
 </div>
+
 
 - Piezoelectric tactile sensor mounted on a **flat surface**
 - A robotic probe applies a **controlled normal force**
@@ -219,48 +223,6 @@ These results demonstrate that **high-bandwidth tactile vibrations contain suffi
 
 <em>This controlled benchmark establishes a reference point for detection performance before addressing robustness under manipulation-induced perturbations.</em>
 
-
-
-
-
----
-##  Data collection on characterization bench
-
-
-Data collection on a robotic bench
-• Piezoelectric sensor on a flat surface
-• Robotic probe applying normal force
-• Sliding motion generated
-
-Slippage timing from ground-truth position
-
-
-
-Randomly parametrized slip trajectories
-• 2–10 N force
-• 10–32 mm travel
-• 200–2000 mm/min speed
-Dataset
-• 3,200 recordings
-• ∼ 1.5s slip duration
-
-
-
-
-
-
-collect_animation.mp4  (video of probe moving on sensor) + collect_signal.mp4 (the corresponding signals, animated)
-
-
-data_collect_mosaic.mp4  (shows repetition, automated, random trajectories)
-
-results : 
-
-Acc. 98.73%
-delay 8.5ms
-F1score 0.9787 
-
-visu_carousel_31956.png 
 
 ---
 
