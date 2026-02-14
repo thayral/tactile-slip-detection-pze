@@ -52,6 +52,54 @@ CEA (Leti & List) · Université Paris-Saclay
 
 
 
+## Context project
+<div style="max-width:920px; margin:24px auto; padding:0 16px;">
+
+  <div style="width:42%; margin:0 auto;">
+    <a href="https://thayral.github.io/PhD-manipulation/" style="text-decoration:none; color:inherit;">
+      <video autoplay loop muted playsinline style="width:100%; height:auto; display:block;">
+        <source src="media/tracebot-process.mp4" type="video/mp4">
+      </video>
+
+      <div style="height:8px;"></div>
+
+      <img src="media/grippermorphism.png" style="width:100%; height:auto; display:block;" alt="TraceBot use-case teaser">
+    </a>
+
+    <div style="margin-top:8px; display:flex; justify-content:space-between; align-items:flex-end; gap:10px;">
+      <div style="font-size:0.95em; color:#444; line-height:1.2;">
+        <strong>TraceBot use-case & platform context</strong><br>
+        <a href="https://thayral.github.io/PhD-manipulation/" style="color:#444; text-decoration:underline;">
+          Learn more on my PhD page (setup, sensors, demos)
+        </a>
+      </div>
+
+      <a href="https://thayral.github.io/PhD-manipulation/" title="PhD page: platform context">
+        <img src="media/TraceBOT_logo.png" style="width:78px; height:auto;" alt="TraceBot logo">
+      </a>
+    </div>
+  </div>
+
+</div>
+
+
+
+
+Slip.gif
+
+
+Slip detection must be early, reliable, and robust to perturbations.
+While slip generates characteristic high-frequency tactile dynamics, real manipulation introduces many slip-like events (actuation noise, force transients) that can cause false alarms.
+
+
+
+
+
+
+
+## Core method
+
+
 
 ### Spectro-temporal features (PzE → FFT/PSD → Spectrogram)
 
@@ -143,19 +191,80 @@ CEA (Leti & List) · Université Paris-Saclay
 
 # BENCH LOOP
 
+
+
+
+visu_carousel_31956.png
+
+---
+##  Data collection on characterization bench
+
+
+Data collection on a robotic bench
+• Piezoelectric sensor on a flat surface
+• Robotic probe applying normal force
+• Sliding motion generated
+
+Slippage timing from ground-truth position
+
+
+
+Randomly parametrized slip trajectories
+• 2–10 N force
+• 10–32 mm travel
+• 200–2000 mm/min speed
+Dataset
+• 3,200 recordings
+• ∼ 1.5s slip duration
+
+
+
+
+
+
+collect_animation.mp4  (video of probe moving on sensor) + collect_signal.mp4 (the corresponding signals, animated)
+
+
+data_collect_mosaic.mp4  (shows repetition, automated, random trajectories)
+
+results : 
+
+Acc. 98.73%
+delay 8.5ms
+F1score 0.9787 
+
+
+---
+
+
+##  Data collection with the gripper (embodied)
+
 bench_nanoslip.png
 
 run_20240306_200307_signals.png-1.png
 bench_collect_nano.mp4
 
 
-run_20240314_170830_split_slip_velres.png
-visu_carousel_31956.png
+Segments:
+2056 total (5 s)
+∼50% slip / 50% no-slip
+extra 300 perturbation-only.
+Slip duration: 330 ± 193 ms on average
+
+
+Grasped object secured to actuated slide
+Randomized slip tajectories
+• accel/velocity/duration
+• grasp configurations
+• object shapes and textures
+→ Slip and perturbation ground-truth
 
 
 
+accuracy  98.1 delay 16.8 ± 8.7 f1score 1.00
 
 
+---
 
 
 
@@ -171,11 +280,20 @@ We rely on automated and parameterized benches to generate labeled slip events u
 
 
 
+
+
+
+
 ## GIF CAROU + SIGNALS -> timing labels
 
 ## GIF MULTI MOSAIC + DATASET FACTS
 
-## VISU CCL IMAGE RESULTS DELAY + ACC
+## VISU  IMAGE RESULTS DELAY + ACC
+
+
+
+run_20240314_170830_split_slip_velres.png
+-> successive slip events are correctly detected
 
 
 
@@ -183,22 +301,89 @@ We rely on automated and parameterized benches to generate labeled slip events u
 
 ## - > robust how ?
 
-weighted loss
+weighted loss equations
 
-
+Data fusion
 
 <p>
   <img src="media/motor_haptics.png" width="820" alt="Haptic signal">
 </p>
 
-# VISU ROBUST delta FN + ROB ACC
 
 
-DeltaFn_run_20240312_191700_1757.png
+## Results
 
 
-
-### visu
-
+### VISU ROBUST delta FN 
 
 DeltaFn_run_20240312_191700_1757.png
+
+
+### Robustness via targeted supervision (FFT–GRU)
+
+<div style="max-width:920px; margin:0 auto; padding:0 16px;">
+
+  <div style="width:85%; margin:0 auto;">
+    <table style="width:100%; border-collapse:collapse;">
+      <thead>
+        <tr>
+          <th align="left">Model</th>
+          <th align="right">Delay (ms)</th>
+          <th align="right">Clean F1</th>
+          <th align="right">Δq</th>
+          <th align="right">ΔF<sub>n</sub></th>
+          <th align="right">ΔF<sub>t</sub></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>FFT–GRU <em>baseline</em></td>
+          <td align="right">17.8 ± 9.5</td>
+          <td align="right">1.000</td>
+          <td align="right">52.8</td>
+          <td align="right">43.9</td>
+          <td align="right">19.6</td>
+        </tr>
+        <tr>
+          <td>FFT–GRU <em>focal</em> (γ = 2)</td>
+          <td align="right">25.3 ± 21.2</td>
+          <td align="right">0.998</td>
+          <td align="right">65.0</td>
+          <td align="right">50.7</td>
+          <td align="right">36.8</td>
+        </tr>
+        <tr>
+          <td>FFT–GRU <em>weighted</em> (ω)</td>
+          <td align="right">22.5 ± 16.2</td>
+          <td align="right">1.000</td>
+          <td align="right"><strong>96.8</strong></td>
+          <td align="right">56.7</td>
+          <td align="right"><strong>97.0</strong></td>
+        </tr>
+        <tr>
+          <td>FFT–GRU <em>haptic</em> (ω + τ)</td>
+          <td align="right">24.1 ± 18.0</td>
+          <td align="right">1.000</td>
+          <td align="right"><strong>96.8</strong></td>
+          <td align="right"><strong>79.4</strong></td>
+          <td align="right">95.1</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div style="height:10px;"></div>
+
+  <ul>
+    <li><strong>Weighting</strong> improves robustness under Δq / ΔF<sub>t</sub> (specificity ≈ 97%).</li>
+    <li><strong>Focal loss</strong> is a lower-performing alternative without perturbation labels.</li>
+    <li><strong>Haptic data</strong> improves robustness under ΔF<sub>n</sub> (up to <strong>79.4%</strong>).</li>
+  </ul>
+
+</div>
+
+
+
+
+
+
