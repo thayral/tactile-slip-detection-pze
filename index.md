@@ -448,9 +448,14 @@ During manipulation, several classes of perturbations are explicitly introduced:
 These perturbations generate tactile responses that can be mistaken for slip if not properly accounted for during training.
 
 <div style="max-width:920px; margin:16px auto; padding:0 16px;">
-  <div style="width:65%; margin:0 auto;">
+  <div style="width:65%; margin:0 auto; display:flex; justify-content:center;">
     <img src="media/perturbation_taxonomy.png"
-         style="width:100%; height:auto; display:block;"
+         style="
+           width:100%;
+           height:auto;
+           display:block;
+           transform: rotate(90deg);
+         "
          alt="Perturbation taxonomy under manipulation">
   </div>
 </div>
