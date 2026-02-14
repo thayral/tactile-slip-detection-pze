@@ -140,10 +140,22 @@ CEA (Leti & List) · Université Paris-Saclay
 
 
 # BENCH RSC NANO image + signals
+
 # BENCH LOOP
 
-setuplab.png
-forFig6-start_31956.png
+bench_nanoslip.png
+
+run_20240306_200307_signals.png-1.png
+bench_collect_nano.mp4
+
+
+run_20240314_170830_split_slip_velres.png
+visu_carousel_31956.png
+
+
+
+
+
 
 
 
@@ -157,17 +169,36 @@ We rely on automated and parameterized benches to generate labeled slip events u
 <em>Automated bench for slip trajectory generation with ground-truth signals.</em>
 
 
-## PERTURB TAXO TRANSIENT AMBIENT
-## - > robust how ?
-# VISU ROBUST delta FN + ROB ACC
 
 
 ## GIF CAROU + SIGNALS -> timing labels
 
 ## GIF MULTI MOSAIC + DATASET FACTS
+
 ## VISU CCL IMAGE RESULTS DELAY + ACC
+
+
+
+## PERTURB TAXO TRANSIENT AMBIENT
+
+## - > robust how ?
+
+weighted loss
+
+
+
+<p>
+  <img src="media/motor_haptics.png" width="820" alt="Haptic signal">
+</p>
+
+# VISU ROBUST delta FN + ROB ACC
+
+
+DeltaFn_run_20240312_191700_1757.png
+
+
 
 ### visu
 
 
-exp_20240312_191525_run_20240312_191700_1757_noslip_run_torques_tau_merge_reel_rsc_fn.png
+DeltaFn_run_20240312_191700_1757.png
