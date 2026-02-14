@@ -63,7 +63,7 @@ CEA (Leti & List) · Université Paris-Saclay
 
       <div style="height:8px;"></div>
 
-      <img src="media/grippermorphism.png" style="width:100%; height:auto; display:block;" alt="TraceBot use-case teaser">
+      <img src="media/grippermorphism.PNG" style="width:100%; height:auto; display:block;" alt="TraceBot use-case teaser">
     </a>
 
     <div style="margin-top:8px; display:flex; justify-content:space-between; align-items:flex-end; gap:10px;">
