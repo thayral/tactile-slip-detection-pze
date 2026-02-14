@@ -416,6 +416,31 @@ These perturbations generate tactile responses that can be mistaken for slip if 
 </div>
 
 
+### Perturbation modeling
+
+      During manipulation, several classes of perturbations are explicitly introduced.
+      These events can generate tactile responses that resemble slip, and must be modeled during training to reduce false alarms.
+
+
+<table style="width:100%; border-collapse:collapse; margin:16px 0;">
+  <tr>
+    <!-- Left: image -->
+    <td width="38%" valign="middle" align="center" style="padding:8px;">
+      <img src="media/perturbations_taxonomy_v2.png"
+           style="width:100%; max-width:320px; height:auto; display:block; margin:0 auto;"
+           alt="Perturbation taxonomy under manipulation">
+    </td>
+
+    <!-- Right: text -->
+    <td width="62%" valign="top" style="padding:8px;">
+      <ul style="margin:10px 0 0 18px;">
+        <li><strong>Δq — Actuation noise:</strong> vibrations induced by finger motion and tendon actuation</li>
+        <li><strong>ΔF<sub>n</sub> — Grasp effort variations:</strong> transient changes in normal force</li>
+        <li><strong>ΔF<sub>t</sub> — External load variations:</strong> tangential forces applied to the grasped object</li>
+      </ul>
+    </td>
+  </tr>
+</table>
 
 
 
@@ -429,10 +454,14 @@ Rather than treating all non-slip samples equally, we distinguish between:
 
 This enables the model to learn *what should be ignored* during manipulation, without sacrificing early slip sensitivity.
 
+
+
+
+
 #### Supervision strategies
 
 
-
+Perturbations are rare and short events, underrepresented in the data. We adopt targeted learning strategies.
 
 
 <p>
@@ -444,21 +473,9 @@ This enables the model to learn *what should be ignored* during manipulation, wi
 
 
 
-
-
-
-- **Perturbation-weighted loss (ω)**  
-  When perturbation time labels are available, training samples are reweighted to balance slip, clean no-slip, and perturbation events.  
-  This explicitly penalizes false alarms caused by actuation noise and force transients.
-
-- **Focal loss (γ)**  
-  As an alternative that does not require perturbation labels, focal loss emphasizes difficult predictions by down-weighting easy examples.  
-  This provides a label-free robustness mechanism, at the cost of reduced performance compared to perturbation-aware weighting.
-
-
 <details>
   <summary style="cursor:pointer; font-weight:600;">
-    ▸ Loss formulations (technical details) …
+    **Perturbation-weighted loss (ω)**
   </summary>
 
   <p><strong>Weighted loss</strong></p>
@@ -466,20 +483,43 @@ This enables the model to learn *what should be ignored* during manipulation, wi
   \mathcal L_w = - \frac{1}{\sum_t \omega_t} \sum_t \omega_t \log p_t^\star
   \]
 
+</details>
+
+  When perturbation time labels are available, training samples are reweighted to balance slip, clean no-slip, and perturbation events.  
+  This explicitly penalizes false alarms caused by actuation noise and force transients.
+
+
+<details>
+  <summary style="cursor:pointer; font-weight:600;">
+    **Focal loss (γ)**
+  </summary>
+
   <p><strong>Focal loss</strong></p>
   \[
   \mathcal L_{\mathrm{focal}} = -\frac{1}{N}\sum_t (1-p_t^\star)^{\gamma}\log p_t^\star
   \]
-</details>
+</details> 
+  As an alternative that does not require perturbation labels, focal loss emphasizes difficult predictions by down-weighting easy examples.  
+  This provides a label-free robustness mechanism, a lower-cost alternative.
 
 
 
 
-- **Haptic data fusion  (tactile + proprioception)**  
+<details>
+  <summary style="cursor:pointer; font-weight:600;">
+    ****Haptic data fusion  (tactile + proprioception)****
+  </summary>
+
 
 <p>
   <img src="media/motor_haptics.png" width="820" alt="Haptic signal">
 </p>
+
+
+
+</details> 
+
+
 
 
 These strategies allow the same FFT–GRU architecture to transition from controlled slip detection to **robust embodied perception**.
