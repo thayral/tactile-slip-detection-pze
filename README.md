@@ -36,3 +36,114 @@ This significantly reduces **false alarms** (robustness: 38.77 % → 90.43 %) wh
 **Learning-based slip detection for adaptive grasp control**  
 CEA (Leti & List) · Université Paris-Saclay
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+### Spectro-temporal features (PzE → FFT/PSD → Spectrogram)
+
+<div style="width:100%; margin: 0 auto;">
+
+  <video autoplay loop muted playsinline style="width:33%; height:auto; display:block; margin: 0 auto;">
+    <source src="media/fft_pze.mp4" type="video/mp4">
+  </video>
+
+  <div style="height: 5px;"></div>
+
+  <video autoplay loop muted playsinline style="width:20%; height:auto; display:block; margin: 0 auto;">
+    <source src="media/fft_frames.mp4" type="video/mp4">
+  </video>
+
+  <div style="height: 5px;"></div>
+
+  <video autoplay loop muted playsinline style="width:33%; height:auto; display:block; margin: 0 auto;">
+    <source src="media/fft_spectro.mp4" type="video/mp4">
+  </video>
+
+</div>
+
+<em>We process high-bandwidth PzE tactile signals in short windows, extract frequency-domain PSD features via FFT, and build a spectrogram for slip classification.</em>
+
+
+
+<table style="width:100%;">
+  <tr>
+    <!-- LEFT: big image -->
+    <td width="50%" valign="middle" align="center">
+      <img src="media/FFT_GRU.png" style="width:100%; height:auto; display:block;" alt="Method overview">
+    </td>
+
+    <!-- RIGHT: smaller image + bullets below -->
+    <td width="50%" valign="top" align="center">
+      <img src="media/GRU_d2lai.png" style="width:70%; height:auto; display:block; margin: 0 auto;" alt="FFT-GRU slip detection pipeline">
+
+      <div style="height:14px;"></div>
+
+      <div style="text-align:left; display:inline-block; width:90%;">
+        <ul>
+          <li>Identify <strong>spectral patterns</strong> of friction</li>
+          <li>Analyse <strong>temporal evolution</strong> with recurrence</li>
+          <li><strong>100Hz classification</strong> with binary classes</li>
+          <li><strong>Training</strong> with binary cross-entropy (BCE)</li>
+        </ul>
+      </div>
+    </td>
+  </tr>
+</table>
+
+
+
+
+
+
+
+
+## Generating perturbations for training {#perturbations}
+
+<table>
+  <tr>
+    <td width="55%" valign="top">
+      <strong>Perturbation taxonomy</strong>
+      <ul>
+        <li><strong>ΔF<sub>n</sub></strong> — Grasp effort variations: normal force (tighten / release)</li>
+        <li><strong>ΔF<sub>t</sub></strong> — External load variations: tangential load (shear / traction)</li>
+        <li><strong>Δq</strong> — Actuation noise: structural vibrations</li>
+      </ul>
+      <em>Goal: reduce false alarms while preserving sensitivity to real slip.</em>
+    <td width="45%" align="center" valign="top">
+      <img
+        src="media/perturbations_taxonomy.png"
+        width="420"
+        alt="Perturbation taxonomy"
+        style="transform: rotate(90deg);">
+    </td>
+  </tr>
+</table>
+
+<p>
+  <img src="media/perturbations-rarity.png" width="900" alt="Perturbations imbalance">
+</p>
+
+
+
+## GIF CAROU + SIGNALS -> timing labels
+
+## GIF MULTI MOSAIC + DATASET FACTS
+## VISU CCL IMAGE RESULTS DELAY + ACC
+
+### visu
+
+
+exp_20240312_191525_run_20240312_191700_1757_noslip_run_torques_tau_merge_reel_rsc_fn.png
