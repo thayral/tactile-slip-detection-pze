@@ -1,4 +1,17 @@
 
+
+
+<script>
+  window.MathJax = {
+    tex: { inlineMath: [['$', '$'], ['\\(', '\\)']], displayMath: [['$$','$$'], ['\\[','\\]']] },
+    options: { skipHtmlTags: ['script','noscript','style','textarea','pre','code'] }
+  };
+</script>
+<script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+
+
+
+
 # Tactile Slip Detection from High-Bandwidth Tactile Sensing
 
 Learning-based detection of incipient slip from piezoelectric tactile vibrations,
