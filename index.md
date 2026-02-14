@@ -536,7 +536,7 @@ Using this dataset, we explore supervision strategies that explicitly incorporat
 
 
 
-### Robustness via targeted supervision (FFT–GRU)
+### Visualization of false alarm and robustness to perturbation ΔFₙ
 
   <div style="height:24px;"></div>
 
@@ -544,12 +544,10 @@ Using this dataset, we explore supervision strategies that explicitly incorporat
     <img src="media/DeltaFn_run_20240312_191700_1757.png"
          style="width:100%; height:auto; display:block;"
          alt="Robustness under grasp force variations (ΔFₙ)">
-    <div style="font-size:0.9em; color:#555; margin-top:6px; text-align:center;">
-      Robust slip detection under grasp force variations (ΔF<sub>n</sub>).
-    </div>
   </div>
 
 
+### Robustness via targeted supervision (FFT–GRU)
 
 <div style="max-width:920px; margin:0 auto; padding:0 16px;">
 
@@ -614,8 +612,7 @@ Using this dataset, we explore supervision strategies that explicitly incorporat
 
 
 
-
-
+---
 
 
 
