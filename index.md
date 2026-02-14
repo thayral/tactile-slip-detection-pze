@@ -156,45 +156,72 @@ While slip generates characteristic high-frequency tactile dynamics, real manipu
 
 
 
+## Dataset 1 — Controlled slip characterization
+
+To study the **intrinsic tactile signature of slip** under controlled conditions, we first collect data on a dedicated characterization bench.  
+The goal is to validate the **representation, architecture, and detection latency**, independently of manipulation complexity.
+
+### Characterization bench
+
+<div style="max-width:920px; margin:16px auto; padding:0 16px;">
+  <div style="width:70%; margin:0 auto;">
+    <video autoplay loop muted playsinline style="width:100%; height:auto; display:block;">
+      <source src="media/collect_animation.mp4" type="video/mp4">
+    </video>
+    <div style="height:8px;"></div>
+    <video autoplay loop muted playsinline style="width:100%; height:auto; display:block;">
+      <source src="media/collect_signal.mp4" type="video/mp4">
+    </video>
+  </div>
+</div>
+
+- Piezoelectric tactile sensor mounted on a **flat surface**
+- A robotic probe applies a **controlled normal force**
+- Slip is generated through **programmed sliding motions**
+- Slip onset timing is obtained from **ground-truth probe position**
+
+### Dataset generation
+
+<div style="max-width:920px; margin:16px auto; padding:0 16px;">
+  <div style="width:70%; margin:0 auto;">
+    <video autoplay loop muted playsinline style="width:100%; height:auto; display:block;">
+      <source src="media/data_collect_mosaic.mp4" type="video/mp4">
+    </video>
+  </div>
+</div>
+
+Slip trajectories are **randomly parametrized** to cover a wide range of contact conditions:
+
+- Normal force: **2–10 N**
+- Sliding distance: **10–32 mm**
+- Sliding speed: **200–2000 mm/min**
+- Typical slip duration: **≈ 1.5 s**
+
+**Dataset size:** 3,200 recordings
+
+### Detection performance (controlled conditions)
+
+<div style="max-width:920px; margin:16px auto; padding:0 16px;">
+  <div style="width:65%; margin:0 auto;">
+    <img src="media/visu_carousel_31956.png"
+         style="width:100%; height:auto; display:block;"
+         alt="Slip detection visualization on characterization bench">
+  </div>
+</div>
+
+On this controlled dataset, the FFT–GRU model achieves:
+
+- **Accuracy:** 98.73%
+- **F1-score:** 0.9787
+- **Average detection delay:** **8.5 ms**
+
+These results demonstrate that **high-bandwidth tactile vibrations contain sufficient information for early slip detection**, and that the proposed spectro-temporal model can exploit them in real time.
+
+<em>This controlled benchmark establishes a reference point for detection performance before addressing robustness under manipulation-induced perturbations.</em>
 
 
 
-## Generating perturbations for training {#perturbations}
 
-<table>
-  <tr>
-    <td width="55%" valign="top">
-      <strong>Perturbation taxonomy</strong>
-      <ul>
-        <li><strong>ΔF<sub>n</sub></strong> — Grasp effort variations: normal force (tighten / release)</li>
-        <li><strong>ΔF<sub>t</sub></strong> — External load variations: tangential load (shear / traction)</li>
-        <li><strong>Δq</strong> — Actuation noise: structural vibrations</li>
-      </ul>
-      <em>Goal: reduce false alarms while preserving sensitivity to real slip.</em>
-    <td width="45%" align="center" valign="top">
-      <img
-        src="media/perturbations_taxonomy.png"
-        width="420"
-        alt="Perturbation taxonomy"
-        style="transform: rotate(90deg);">
-    </td>
-  </tr>
-</table>
-
-<p>
-  <img src="media/perturbations-rarity.png" width="900" alt="Perturbations imbalance">
-</p>
-
-
-
-# BENCH RSC NANO image + signals
-
-# BENCH LOOP
-
-
-
-
-visu_carousel_31956.png
 
 ---
 ##  Data collection on characterization bench
@@ -233,8 +260,34 @@ Acc. 98.73%
 delay 8.5ms
 F1score 0.9787 
 
+visu_carousel_31956.png 
 
 ---
+
+
+
+
+## From controlled slip to embodied perturbations
+
+While the characterization bench provides **clean ground truth** and controlled slip trajectories, real robotic manipulation introduces additional sources of tactile dynamics that are **not related to slip**.
+
+During grasping and manipulation, tactile sensors are exposed to:
+- actuation-induced vibrations,
+- transient force variations,
+- contact reconfigurations and load changes,
+
+all of which can produce vibration patterns that resemble slip at the signal level.
+
+As a result, models trained only on controlled slip data may exhibit **false alarms** when deployed on a robot, despite performing well on idealized benchmarks.
+
+To address this gap, we move from controlled tactile characterization to **embodied data collection under manipulation**, and explicitly model non-slip perturbations during training.
+
+
+
+
+
+
+
 
 
 ##  Data collection with the gripper (embodied)
@@ -267,26 +320,205 @@ accuracy  98.1 delay 16.8 ± 8.7 f1score 1.00
 ---
 
 
+## Manipulation perturbations and false slip cues
 
-### Automated data collection bench
-We rely on automated and parameterized benches to generate labeled slip events under controlled variability (object, speed, force, grasps) and to collect **non-slip perturbations** that mimic slip-like dynamics.
+During manipulation, tactile signals are affected by multiple sources of perturbations.
+Some are **transient**, others **persistent**, and they can originate either from the **environment** or from the **robot itself**.
+These events often produce vibration patterns that resemble slip, leading to false alarms if not properly modeled.
 
-<!-- TEMPLATE: GIF for bench -->
-<p>
-  <img src="assets/gifs/bench.gif" width="820" alt="Automated slip bench">
-</p>
-<em>Automated bench for slip trajectory generation with ground-truth signals.</em>
+<div style="max-width:920px; margin:24px auto; padding:0 16px;">
+
+<table style="width:100%; border-collapse:collapse;">
+  
+  <!-- ===== TRANSIENT ===== -->
+  <tr>
+    <td width="18%" valign="top" style="padding:8px;">
+      <strong>Transient perturbations</strong>
+      <ul style="margin:6px 0 0 16px;">
+        <li>Short, impulsive events</li>
+        <li>Broadband vibration spikes</li>
+      </ul>
+    </td>
+
+    <td width="26%" valign="middle" align="center" style="padding:8px;">
+      <img src="media/perturbation_signals_transient.png"
+           style="width:100%; height:auto; display:block;"
+           alt="Transient perturbation PzE signal and spectrogram">
+    </td>
+
+    <td width="28%" valign="middle" align="center" style="padding:8px;">
+      <img src="media/perturbation_external.png"
+           style="width:100%; height:auto; display:block;"
+           alt="External transient perturbation">
+      <div style="font-size:0.85em; color:#555; margin-top:4px;">
+        External disturbance<br>
+        <em>(environmental contact)</em>
+      </div>
+    </td>
+
+    <td width="28%" valign="middle" align="center" style="padding:8px;">
+      <img src="media/perturbation_intentional.png"
+           style="width:100%; height:auto; display:block;"
+           alt="Self-induced transient perturbation">
+      <div style="font-size:0.85em; color:#555; margin-top:4px;">
+        Intentional action<br>
+        <em>(regrasp, squeezing)</em>
+      </div>
+    </td>
+  </tr>
+
+  <!-- ===== AMBIENT ===== -->
+  <tr>
+    <td width="18%" valign="top" style="padding:8px;">
+      <strong>Ambient perturbations</strong>
+      <ul style="margin:6px 0 0 16px;">
+        <li>Persistent vibrations</li>
+        <li>Narrow-band spectral content</li>
+      </ul>
+    </td>
+
+    <td width="26%" valign="middle" align="center" style="padding:8px;">
+      <img src="media/perturbation_signals_actuation.png"
+           style="width:100%; height:auto; display:block;"
+           alt="Ambient perturbation PzE signal and spectrogram">
+    </td>
+
+    <td width="28%" valign="middle" align="center" style="padding:8px;">
+      <img src="media/perturbation_environemental.png"
+           style="width:100%; height:auto; display:block;"
+           alt="External ambient perturbation">
+      <div style="font-size:0.85em; color:#555; margin-top:4px;">
+        Environmental vibration<br>
+        <em>(tool, surface)</em>
+      </div>
+    </td>
+
+    <td width="28%" valign="middle" align="center" style="padding:8px;">
+      <img src="media/perturbation_actuation_noise.png"
+           style="width:100%; height:auto; display:block;"
+           alt="Self-induced ambient perturbation">
+      <div style="font-size:0.85em; color:#555; margin-top:4px;">
+        Actuation noise<br>
+        <em>(motor vibration)</em>
+      </div>
+    </td>
+  </tr>
+
+</table>
+
+</div>
+
+<em>
+These perturbations motivate explicit modeling and supervision strategies to distinguish true slip from slip-like tactile events during manipulation.
+</em>
 
 
 
 
+To evaluate slip detection under **real manipulation conditions**, we collect a second dataset directly on a robotic gripper.  
+This dataset captures both **true slip events** and **non-slip perturbations** that arise during grasping and interaction.
+
+The objective is to assess and improve the **robustness** of slip detection when tactile sensing is embedded in a closed-loop robotic system.
+
+### Robotic data collection bench
+
+<div style="max-width:920px; margin:16px auto; padding:0 16px;">
+  <div style="width:70%; margin:0 auto;">
+    <video autoplay loop muted playsinline style="width:100%; height:auto; display:block;">
+      <source src="media/embodied_bench_overview.mp4" type="video/mp4">
+    </video>
+  </div>
+</div>
+
+- Multi-fingered robotic gripper instrumented with hybrid tactile sensing
+- Objects grasped and manipulated under varying conditions
+- Slip events occur naturally during interaction
+- Additional tactile dynamics arise from **actuation, force modulation, and contact changes**
+
+Ground truth labels distinguish **slip** from **non-slip perturbations**, enabling targeted supervision.
+
+### Perturbation modeling
+
+During manipulation, several classes of perturbations are explicitly introduced:
+
+- **Δq — Actuation noise:** vibrations induced by finger motion and tendon actuation  
+- **ΔFₙ — Grasp effort variations:** transient changes in normal force  
+- **ΔFₜ — External load variations:** tangential forces applied to the grasped object  
+
+These perturbations generate tactile responses that can be mistaken for slip if not properly accounted for during training.
+
+<div style="max-width:920px; margin:16px auto; padding:0 16px;">
+  <div style="width:65%; margin:0 auto;">
+    <img src="media/perturbation_taxonomy.png"
+         style="width:100%; height:auto; display:block;"
+         alt="Perturbation taxonomy under manipulation">
+  </div>
+</div>
+
+### Robustness via targeted supervision
+
+Using this dataset, we explore supervision strategies that explicitly incorporate perturbation information during training, while preserving real-time operation.
+
+<div style="max-width:920px; margin:16px auto; padding:0 16px;">
+  <div style="width:85%; margin:0 auto;">
+    <table style="width:100%; border-collapse:collapse;">
+      <thead>
+        <tr>
+          <th align="left">Model</th>
+          <th align="right">Delay (ms)</th>
+          <th align="right">Clean F1</th>
+          <th align="right">Δq</th>
+          <th align="right">ΔF<sub>n</sub></th>
+          <th align="right">ΔF<sub>t</sub></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>FFT–GRU <em>baseline</em></td>
+          <td align="right">17.8 ± 9.5</td>
+          <td align="right">1.000</td>
+          <td align="right">52.8</td>
+          <td align="right">43.9</td>
+          <td align="right">19.6</td>
+        </tr>
+        <tr>
+          <td>FFT–GRU <em>focal</em> (γ = 2)</td>
+          <td align="right">25.3 ± 21.2</td>
+          <td align="right">0.998</td>
+          <td align="right">65.0</td>
+          <td align="right">50.7</td>
+          <td align="right">36.8</td>
+        </tr>
+        <tr>
+          <td>FFT–GRU <em>weighted</em> (ω)</td>
+          <td align="right">22.5 ± 16.2</td>
+          <td align="right">1.000</td>
+          <td align="right"><strong>96.8</strong></td>
+          <td align="right">56.7</td>
+          <td align="right"><strong>97.0</strong></td>
+        </tr>
+        <tr>
+          <td>FFT–GRU <em>haptic</em> (ω + τ)</td>
+          <td align="right">24.1 ± 18.0</td>
+          <td align="right">1.000</td>
+          <td align="right"><strong>96.8</strong></td>
+          <td align="right"><strong>79.4</strong></td>
+          <td align="right">95.1</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+**Key observations**
+- **Targeted weighting** significantly improves robustness under Δq and ΔF<sub>t</sub> (≈ 97% specificity)
+- **Focal loss** offers a label-free alternative, but with reduced robustness
+- **Haptic-aware supervision** improves resistance to grasp-force variations (ΔF<sub>n</sub>)
+
+<em>This embodied dataset bridges the gap between controlled tactile characterization and real robotic deployment, enabling slip detection that remains reliable under manipulation-induced perturbations.</em>
 
 
 
-
-## GIF CAROU + SIGNALS -> timing labels
-
-## GIF MULTI MOSAIC + DATASET FACTS
 
 ## VISU  IMAGE RESULTS DELAY + ACC
 
@@ -294,6 +526,40 @@ We rely on automated and parameterized benches to generate labeled slip events u
 
 run_20240314_170830_split_slip_velres.png
 -> successive slip events are correctly detected
+
+
+
+
+
+## Generating perturbations for training {#perturbations}
+
+<table>
+  <tr>
+    <td width="55%" valign="top">
+      <strong>Perturbation taxonomy</strong>
+      <ul>
+        <li><strong>ΔF<sub>n</sub></strong> — Grasp effort variations: normal force (tighten / release)</li>
+        <li><strong>ΔF<sub>t</sub></strong> — External load variations: tangential load (shear / traction)</li>
+        <li><strong>Δq</strong> — Actuation noise: structural vibrations</li>
+      </ul>
+      <em>Goal: reduce false alarms while preserving sensitivity to real slip.</em>
+    <td width="45%" align="center" valign="top">
+      <img
+        src="media/perturbations_taxonomy.png"
+        width="420"
+        alt="Perturbation taxonomy"
+        style="transform: rotate(90deg);">
+    </td>
+  </tr>
+</table>
+
+<p>
+  <img src="media/perturbations-rarity.png" width="900" alt="Perturbations imbalance">
+</p>
+
+
+
+
 
 
 
