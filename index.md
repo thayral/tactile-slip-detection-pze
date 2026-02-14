@@ -262,36 +262,6 @@ To address this gap, we move from controlled tactile characterization to **embod
 
 
 
-
-
-
-##  Data collection with the gripper (embodied)
-
-bench_nanoslip.png
-
-run_20240306_200307_signals.png-1.png
-bench_collect_nano.mp4
-
-
-Segments:
-2056 total (5 s)
-∼50% slip / 50% no-slip
-extra 300 perturbation-only.
-Slip duration: 330 ± 193 ms on average
-
-
-Grasped object secured to actuated slide
-Randomized slip tajectories
-• accel/velocity/duration
-• grasp configurations
-• object shapes and textures
-→ Slip and perturbation ground-truth
-
-
-
-accuracy  98.1 delay 16.8 ± 8.7 f1score 1.00
-
-
 ---
 
 
@@ -412,29 +382,12 @@ The objective is to assess and improve the **robustness** of slip detection when
 
 Ground truth labels distinguish **slip** from **non-slip perturbations**, enabling targeted supervision.
 
-### Perturbation modeling
 
-During manipulation, several classes of perturbations are explicitly introduced:
-
-- **Δq — Actuation noise:** vibrations induced by finger motion and tendon actuation  
-- **ΔFₙ — Grasp effort variations:** transient changes in normal force  
-- **ΔFₜ — External load variations:** tangential forces applied to the grasped object  
-
-These perturbations generate tactile responses that can be mistaken for slip if not properly accounted for during training.
-
-<div style="max-width:920px; margin:16px auto; padding:0 16px;">
-  <div style="width:35%; margin:0 auto; display:flex; justify-content:center;">
-    <img src="media/perturbations_taxonomy_v2.png" alt="Perturbation taxonomy under manipulation">
-  </div>
-</div>
 
 
 ### Perturbation modeling
 
-      During manipulation, several classes of perturbations are explicitly introduced.
-      These events can generate tactile responses that resemble slip, and must be modeled during training to reduce false alarms.
-
-
+    
 <table style="width:100%; border-collapse:collapse; margin:16px 0;">
   <tr>
     <!-- Left: image -->
@@ -446,11 +399,16 @@ These perturbations generate tactile responses that can be mistaken for slip if 
 
     <!-- Right: text -->
     <td width="62%" valign="top" style="padding:8px;">
+
+     During manipulation, several classes of perturbations are explicitly introduced:
+     
       <ul style="margin:10px 0 0 18px;">
         <li><strong>Δq — Actuation noise:</strong> vibrations induced by finger motion and tendon actuation</li>
         <li><strong>ΔF<sub>n</sub> — Grasp effort variations:</strong> transient changes in normal force</li>
         <li><strong>ΔF<sub>t</sub> — External load variations:</strong> tangential forces applied to the grasped object</li>
       </ul>
+
+      These events can generate tactile responses that resemble slip, and must be modeled during training to reduce false alarms.
     </td>
   </tr>
 </table>
@@ -488,10 +446,9 @@ Perturbations are rare and short events, underrepresented in the data. We adopt 
 
 <details>
   <summary style="cursor:pointer; font-weight:600;">
-    **Perturbation-weighted loss (ω)**
+    Perturbation-weighted loss (ω)
   </summary>
 
-  <p><strong>Weighted loss</strong></p>
   \[
   \mathcal L_w = - \frac{1}{\sum_t \omega_t} \sum_t \omega_t \log p_t^\star
   \]
@@ -504,10 +461,9 @@ Perturbations are rare and short events, underrepresented in the data. We adopt 
 
 <details>
   <summary style="cursor:pointer; font-weight:600;">
-    **Focal loss (γ)**
+    Focal loss (γ)
   </summary>
 
-  <p><strong>Focal loss</strong></p>
   \[
   \mathcal L_{\mathrm{focal}} = -\frac{1}{N}\sum_t (1-p_t^\star)^{\gamma}\log p_t^\star
   \]
@@ -520,7 +476,7 @@ Perturbations are rare and short events, underrepresented in the data. We adopt 
 
 <details>
   <summary style="cursor:pointer; font-weight:600;">
-    ****Haptic data fusion  (tactile + proprioception)****
+    Haptic data fusion  (tactile + proprioception
   </summary>
 
 
@@ -531,7 +487,7 @@ Perturbations are rare and short events, underrepresented in the data. We adopt 
 
 
 </details> 
-
+The model's spectrogram input is complemented with the proprioceptive signal of joint torques, estimated from the motor currents (through backdrivability). This enables better disambiguation of intentional events and true slip signal.
 
 
 
