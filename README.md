@@ -138,6 +138,29 @@ CEA (Leti & List) · Université Paris-Saclay
 
 
 
+# BENCH RSC NANO image + signals
+# BENCH LOOP
+
+setuplab.png
+forFig6-start_31956.png
+
+
+
+### Automated data collection bench
+We rely on automated and parameterized benches to generate labeled slip events under controlled variability (object, speed, force, grasps) and to collect **non-slip perturbations** that mimic slip-like dynamics.
+
+<!-- TEMPLATE: GIF for bench -->
+<p>
+  <img src="assets/gifs/bench.gif" width="820" alt="Automated slip bench">
+</p>
+<em>Automated bench for slip trajectory generation with ground-truth signals.</em>
+
+
+## PERTURB TAXO TRANSIENT AMBIENT
+## - > robust how ?
+# VISU ROBUST delta FN + ROB ACC
+
+
 ## GIF CAROU + SIGNALS -> timing labels
 
 ## GIF MULTI MOSAIC + DATASET FACTS
