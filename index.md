@@ -582,8 +582,6 @@ Using this dataset, we explore supervision strategies that explicitly incorporat
     </div>
   </div>
 
-</div>
-
 
 
 <div style="max-width:920px; margin:0 auto; padding:0 16px;">
