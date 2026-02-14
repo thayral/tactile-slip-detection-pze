@@ -566,21 +566,25 @@ Using this dataset, we explore supervision strategies that explicitly incorporat
 
 
 
-## VISU  IMAGE RESULTS DELAY + ACC
 
-
-
-run_20240314_170830_split_slip_velres.png
--> successive slip events are correctly detected
-
-
-
-### VISU ROBUST delta FN 
-
-DeltaFn_run_20240312_191700_1757.png
 
 
 ### Robustness via targeted supervision (FFT–GRU)
+
+  <div style="height:24px;"></div>
+
+  <div style="width:60%; margin:0 auto;">
+    <img src="media/DeltaFn_run_20240312_191700_1757.png"
+         style="width:100%; height:auto; display:block;"
+         alt="Robustness under grasp force variations (ΔFₙ)">
+    <div style="font-size:0.9em; color:#555; margin-top:6px; text-align:center;">
+      Robust slip detection under grasp force variations (ΔF<sub>n</sub>).
+    </div>
+  </div>
+
+</div>
+
+
 
 <div style="max-width:920px; margin:0 auto; padding:0 16px;">
 
