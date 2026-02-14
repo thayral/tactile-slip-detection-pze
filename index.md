@@ -415,6 +415,83 @@ These perturbations generate tactile responses that can be mistaken for slip if 
   </div>
 </div>
 
+
+
+
+
+### Learning from perturbations
+
+To reduce false slip detections under manipulation, we introduce **perturbation-aware supervision** during training.
+
+Rather than treating all non-slip samples equally, we distinguish between:
+- **clean no-slip** segments, and
+- **non-slip perturbations** that generate slip-like tactile dynamics.
+
+This enables the model to learn *what should be ignored* during manipulation, without sacrificing early slip sensitivity.
+
+#### Supervision strategies
+
+
+
+
+
+<p>
+  <img src="media/perturbations-rarity.png" width="500" alt="Perturbations imbalance">
+</p>
+
+
+
+
+
+
+
+
+
+- **Perturbation-weighted loss (ω)**  
+  When perturbation time labels are available, training samples are reweighted to balance slip, clean no-slip, and perturbation events.  
+  This explicitly penalizes false alarms caused by actuation noise and force transients.
+
+- **Focal loss (γ)**  
+  As an alternative that does not require perturbation labels, focal loss emphasizes difficult predictions by down-weighting easy examples.  
+  This provides a label-free robustness mechanism, at the cost of reduced performance compared to perturbation-aware weighting.
+
+
+<details>
+  <summary style="cursor:pointer; font-weight:600;">
+    ▸ Loss formulations (technical details) …
+  </summary>
+
+  <p><strong>Weighted loss</strong></p>
+  \[
+  \mathcal L_w = - \frac{1}{\sum_t \omega_t} \sum_t \omega_t \log p_t^\star
+  \]
+
+  <p><strong>Focal loss</strong></p>
+  \[
+  \mathcal L_{\mathrm{focal}} = -\frac{1}{N}\sum_t (1-p_t^\star)^{\gamma}\log p_t^\star
+  \]
+</details>
+
+
+
+
+- **Haptic data fusion  (tactile + proprioception)**  
+
+<p>
+  <img src="media/motor_haptics.png" width="820" alt="Haptic signal">
+</p>
+
+
+These strategies allow the same FFT–GRU architecture to transition from controlled slip detection to **robust embodied perception**.
+
+
+
+
+
+
+
+
+
 ### Robustness via targeted supervision
 
 Using this dataset, we explore supervision strategies that explicitly incorporate perturbation information during training, while preserving real-time operation.
@@ -487,34 +564,6 @@ Using this dataset, we explore supervision strategies that explicitly incorporat
 run_20240314_170830_split_slip_velres.png
 -> successive slip events are correctly detected
 
-
-
-
-
-
-<p>
-  <img src="media/perturbations-rarity.png" width="900" alt="Perturbations imbalance">
-</p>
-
-
-
-
-
-
-
-## - > robust how ?
-
-weighted loss equations
-
-Data fusion
-
-<p>
-  <img src="media/motor_haptics.png" width="820" alt="Haptic signal">
-</p>
-
-
-
-## Results
 
 
 ### VISU ROBUST delta FN 
