@@ -50,7 +50,7 @@ This significantly reduces **false alarms** (robustness: 38.77 % → 90.43 %) wh
       <div style="font-size:0.95em; color:#444; line-height:1.2;">
         <strong>TraceBot use-case & platform context</strong><br>
         <a href="https://thayral.github.io/PhD-manipulation/" style="color:#444; text-decoration:underline;">
-          Learn more on my PhD page (setup, sensors, demos)
+          Learn more on my PhD page <br> (setup, sensors, demos)
         </a>
       </div>
 
@@ -624,7 +624,7 @@ Théo Ayral, Saifeddine Aloui, Mathieu Grossard
 IEEE/ASME International Conference on Advanced Intelligent Mechatronics (AIM), 2023  
 Seattle, USA
 
-**CoDIT 2026 (submitted)**  
+**(In preparation)**  
 *Robust Tactile Slip Detection under Manipulation Perturbations*  
 Théo Ayral, Saifeddine Aloui, Mathieu Grossard
 
@@ -635,8 +635,8 @@ Théo AYRAL
 
 ➡️ This work is part of the PhD thesis  
 **Learning-based slip detection for adaptive grasp control**  
-CEA (Leti & List) · Université Paris-Saclay
-[https://github.com/thayral/PhD-manipulation](https://github.com/thayral/PhD-manipulation)
+CEA (Leti & List) · Université Paris-Saclay  
+[https://thayral.github.io/PhD-manipulation/](https://thayral.github.io/PhD-manipulation/)  
 
 
 
