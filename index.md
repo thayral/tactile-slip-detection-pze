@@ -18,6 +18,13 @@ Learning-based detection of incipient slip from piezoelectric tactile vibrations
 with robustness to manipulation perturbations and real-time performance.
 
 
+---
+
+🚀 **Runnable demo**  
+👉 **[https://github.com/thayral/tactile-slip-demo](https://github.com/thayral/tactile-slip-demo)**  
+Slip detection from piezoelectric tactile spectrograms (FFT + GRU), with example data and inference pipeline.
+
+---
 
 ### Main contributions
 
