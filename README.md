@@ -2,7 +2,7 @@
 
 
 
-[![Teaser](media/SLIP_TEASER.png)](https://thayral.github.io/tactile-slip-detection-pze/)
+
 
 
 - Learning-based tactile perception + interpretable force control
