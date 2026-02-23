@@ -233,12 +233,6 @@ To address this gap, we move from controlled tactile characterization to **embod
 
 
 
-
-
-
----
-
-
 ## Manipulation perturbations and false slip cues
 
 During manipulation, tactile signals are affected by multiple sources of perturbations.
@@ -554,7 +548,7 @@ Using this dataset, we explore supervision strategies that explicitly incorporat
   </div>
 
 
-### Robustness via targeted supervision (FFT–GRU)
+### Robustness results (FFT–GRU)
 
 <div style="max-width:920px; margin:0 auto; padding:0 16px;">
 
