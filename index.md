@@ -72,7 +72,6 @@ This significantly reduces **false alarms** (robustness: 38.77 % → 90.43 %) wh
 
 
 
-Slip.gif
 
 
 Slip detection must be early, reliable, and robust to perturbations.
